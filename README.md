@@ -14,10 +14,34 @@ A research-grade Python tool designed to accurately extract the five parameters 
   - Applies dynamic temperature coefficients to both series ($R_s$) and shunt ($R_{sh}$) resistances for highly accurate high-temperature predictions.
 - **Smart Data Loader:** Automatically cleans messy CSV datasets (fixes malformed signs, drops empty rows, and auto-detects delimiters). Supports both Single Cells and full PV Modules (Ns > 1).
 
-## 🛠️ Usage / Installation
+## 🛠️ Installation & Usage
 
-The script is standalone and highly optimized for **Google Colab** and local Jupyter/Python environments.
+You can run this tool either on the cloud (Google Colab) or locally on your machine.
 
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/almelbi50/solar-pv-extractor.git](https://github.com/almelbi50/solar-pv-extractor.git)
+### Option 1: Google Colab (Recommended)
+Google Colab provides a ready-to-use environment.
+1. Upload the `solar_analyzer.py` script to a new Google Colab notebook.
+2. Ensure you have the required libraries by running this command in a code cell at the top:
+   ```python
+  
+   !pip install numpy pandas scipy matplotlib
+3.Run the script. A prompt will appear asking you to input the temperature, number of cells, and upload your .csv dataset.
+Option 2: Local Python Environment
+If you prefer running the script on your own computer (Windows / Mac / Linux):
+1.Clone the repository:
+git clone [https://github.com/almelbi50/solar-pv-extractor.git](https://github.com/almelbi50/solar-pv-extractor.git)
+cd solar-pv-extractor
+2.Install the required dependencies: Open your terminal or command prompt and run:
+pip install numpy pandas scipy matplotlib
+3.Run the script:
+python solar_analyzer.py
+Follow the on-screen prompts to enter the parameters and provide the path to your CSV file.
+Data Format RequirementsYour .csv file should contain two columns (without headers, or with headers that can be safely ignored):Column 1: Voltage (V)Column 2: Current (A)Note: The script's Smart Data Loader will automatically detect the delimiter (comma or semicolon) and clean any malformed negative signs.
+🔬 Scientific Methodology
+1. The Lambert W-Function ModelThe tool transforms the implicit I-V equation:
+ I = Iph - I0 * [exp((V + I*Rs) / (Ns*n*k*T/q)) - 1] - (V + I*Rs)
+ /Rshinto an explicit form using scipy.special.lambertw to compute the exact theoretical current without iterative approximations inside the objective function.
+ 2. Relative Error ObjectiveStandard Mean Squared Error (MSE) biases the curve fitting towards high-current regions. By minimizing the RMSRE (with a protective epsilon), the algorithm correctly captures the "knee" of the curve and the $V_{oc}$ region, yielding highly accurate Ideality Factors ($n$) and Shunt Resistances ($R_{sh}$).
+ 3. Thermal DynamicsWhen projecting the curve for temperatures (e.g., 45°C, 60°C), the tool adjusts:Bandgap ($E_g$): Decreases via Varshni's empirical relation.Saturation Current ($I_0$): Increases exponentially driven by the new $E_g$ and thermal voltage.Resistances: $R_s$ increases linearly (lattice scattering), while $R_{sh}$ decreases exponentially (thermal generation).
+   📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
