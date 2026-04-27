@@ -39,9 +39,13 @@ Follow the on-screen prompts to enter the parameters and provide the path to you
 Data Format RequirementsYour .csv file should contain two columns (without headers, or with headers that can be safely ignored):Column 1: Voltage (V)Column 2: Current (A)Note: The script's Smart Data Loader will automatically detect the delimiter (comma or semicolon) and clean any malformed negative signs.
 🔬 Scientific Methodology
 1. The Lambert W-Function ModelThe tool transforms the implicit I-V equation:
- I = Iph - I0 * [exp((V + I*Rs) / (Ns*n*k*T/q)) - 1] - (V + I*Rs)
- /Rshinto an explicit form using scipy.special.lambertw to compute the exact theoretical current without iterative approximations inside the objective function.
- 2. Relative Error ObjectiveStandard Mean Squared Error (MSE) biases the curve fitting towards high-current regions. By minimizing the RMSRE (with a protective epsilon), the algorithm correctly captures the "knee" of the curve and the $V_{oc}$ region, yielding highly accurate Ideality Factors ($n$) and Shunt Resistances ($R_{sh}$).
- 3. Thermal DynamicsWhen projecting the curve for temperatures (e.g., 45°C, 60°C), the tool adjusts:Bandgap ($E_g$): Decreases via Varshni's empirical relation.Saturation Current ($I_0$): Increases exponentially driven by the new $E_g$ and thermal voltage.Resistances: $R_s$ increases linearly (lattice scattering), while $R_{sh}$ decreases exponentially (thermal generation).
-   📄 License
+ I = Iph - I0 * [exp((V + I*Rs) / (Ns*n*k*T/q)) - 1] - (V + I*Rs)/Rsh
+into an explicit form using scipy.special.lambertw to compute the exact theoretical current without iterative approximations inside the objective function.
+2. Relative Error ObjectiveStandard Mean Squared Error (MSE) biases the curve fitting towards high-current regions. By minimizing the RMSRE (with a protective epsilon), the algorithm correctly captures the "knee" of the curve and the $V_{oc}$ region, yielding highly accurate Ideality Factors ($n$) and Shunt Resistances ($R_{sh}$).
+3. Thermal DynamicsWhen
+ projecting the curve for temperatures (e.g., 45°C, 60°C), the tool adjusts:
+Bandgap ($E_g$): Decreases via Varshni's empirical relation.Saturation Current ($I_0$):
+ Increases exponentially driven by the new $E_g$ and thermal voltage.
+Resistances: $R_s$ increases linearly (lattice scattering), while $R_{sh}$ decreases exponentially (thermal generation).
+📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
