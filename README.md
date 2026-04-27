@@ -20,4 +20,4 @@ The script is standalone and highly optimized for **Google Colab** and local Jup
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/YOUR-USERNAME/solar-pv-extractor.git](https://github.com/YOUR-USERNAME/solar-pv-extractor.git)
+   git clone [https://github.com/almelbi50/solar-pv-extractor.git](https://github.com/almelbi50/solar-pv-extractor.git)
