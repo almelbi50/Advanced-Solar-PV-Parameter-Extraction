@@ -47,5 +47,6 @@ into an explicit form using scipy.special.lambertw to compute the exact theoreti
 Bandgap ($E_g$): Decreases via Varshni's empirical relation.Saturation Current ($I_0$):
  Increases exponentially driven by the new $E_g$ and thermal voltage.
 Resistances: $R_s$ increases linearly (lattice scattering), while $R_{sh}$ decreases exponentially (thermal generation).
+
 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
